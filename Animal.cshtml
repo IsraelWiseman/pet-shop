@@ -1,0 +1,73 @@
+﻿@model PetShopWebsite.Models.Animal
+@{
+    Layout = "_PetShopLayout";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        @if (Model.PictureName != null)
+        {
+            <img src="@Url.Content($"~/Images/{Model.PictureName}")" alt="@Model.Name" style="margin-left:10px;margin-top:15px; width:400px"/>
+        }
+        else
+        {
+            <p>No image available.</p>
+        }
+        <div style="margin-left:10px">
+            <form method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label for="comment">Add a comment:</label>
+
+                    <textarea class="form-control" id="comment" autofocus name="comment" rows="10"
+                              minlength="2" data-val-minlength="Please enter at least 2 characters"
+                              placeholder="Enter your comment here" required style="width:400px"></textarea>
+
+                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                </div>
+
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <hr />
+        <h4>Details</h4>
+        <ul>
+            <li><strong>Name:</strong> @Model.Name</li>
+            <li><strong>Age:</strong> @Model.Age</li>
+            <li><strong>Description:</strong> @Model.Description</li>
+            <li><strong>Category:</strong> @Model.Category!.Name</li>
+
+        </ul>
+        <hr />
+        <h4>Comments</h4>
+        @if (ViewBag.Comments != null && ViewBag.Comments.Count > 0)
+        {
+            <ul class="comment-list">
+                @foreach (var comment in ViewBag.Comments)
+                {
+                    <li>@comment.Comment1</li>
+
+                    <form asp-action="DeleteComment" method="post" onsubmit="return confirm('Are you sure you want to delete this comment?')">
+                        <input type="hidden" name="commentId" value="@comment.CommentId" />
+                        <button type="submit" class="btn btn-link text-danger">Delete</button>
+                    </form>
+
+                    <content>-------------------------------------------------------------------------------------------------------------------------</content>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No comments yet.</p>
+        }
+        <hr />
+
+
+
+        
+       
+
+    </div>
+</div>

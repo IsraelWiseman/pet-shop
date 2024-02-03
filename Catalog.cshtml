@@ -1,0 +1,52 @@
+﻿@model IEnumerable<PetShopWebsite.Models.Animal>
+@{
+    Layout = "_PetShopLayout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Filtered Animals</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card filter-card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="position:fixed">Filter by Category</h5> <br/><br />
+                        <ul class="list-group list-group-flush" style="position:fixed; max-height:100px;">
+                            <li class="list-group-item @((ViewBag.SelectedCategory == "All") ? "selected-category" : "")"><a href="/Petshop/Catalog">All Animals</a></li>
+                            <li class="list-group-item @((ViewBag.SelectedCategory == "Mammals") ? "selected-category" : "")"><a href="/Petshop/Catalog?animalType=mammals">Mammals</a></li>
+                            <li class="list-group-item @((ViewBag.SelectedCategory == "Fish") ? "selected-category" : "")"><a href="/Petshop/Catalog?animalType=fish">Fish</a></li>
+                            <li class="list-group-item @((ViewBag.SelectedCategory == "Birds") ? "selected-category" : "")"><a href="/Petshop/Catalog?animalType=birds">Birds</a></li>
+                            <li class="list-group-item @((ViewBag.SelectedCategory == "Reptiles") ? "selected-category" : "")"><a href="/Petshop/Catalog?animalType=reptiles">Reptiles</a></li>
+                            <li class="list-group-item @((ViewBag.SelectedCategory == "Amphibians") ? "selected-category" : "")"><a href="/Petshop/Catalog?animalType=amphibians">Amphibians</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    @foreach (var animal in Model)
+                    {
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <img src="@Url.Content($"~/Images/{animal.PictureName}")" alt="@animal.Name" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@animal.Name</h5>
+                                </div>
+                                <div class="card-footer d-flex justify-content-center">
+                                    <a href="@Url.Action("Animal", new { id = animal.AnimalId })" class="btn btn-info">Find out more and comment </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

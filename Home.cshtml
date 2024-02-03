@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PetShopWebsite.Models.Animal>
+@{
+    Layout = "_PetShopLayout";
+}
+
+<h2>Welcome To Israel's Pet Shop</h2>
+<h4 style="text-align:center">The two most highly rated pets today are:</h4>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+        <div class="card-deck">
+            @foreach (var animal in Model)
+            {
+                <div class="card mb-4">
+                    <img class="card-img-top" src="@Url.Content($"~/Images/{animal.PictureName}")" alt="@animal.Name">
+                    <div class="card-body" style="height: 200px;">
+                        <h5 class="card-title">@animal.Name</h5>
+                        <p class="card-text">@animal.Description</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">@animal.Comments.Count comments</small>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

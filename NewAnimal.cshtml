@@ -1,0 +1,48 @@
+﻿@model PetShopWebsite.Models.Animal
+@{
+    Layout = "_PetShopLayout";
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger" style="text-align:center">@TempData["Message"]</div>
+}
+
+
+<h2>New Animal</h2>
+@using (Html.BeginForm("NewAnimal", "petShop", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="new-animal-form" >
+        <label asp-for="Name">*Name</label>
+        <input asp-for="Name" class="form-control" name="Name" autofocus />
+
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="new-animal-form" >
+        <label asp-for="Age">Age</label>
+        <input asp-for="Age" class="form-control" name="Age" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+    <div class="new-animal-form" >
+        <label asp-for="PictureName">*Picture Name</label>
+        <input type="file" asp-for="PictureName" class="form-control-file"  name="PictureName" />
+        <span asp-validation-for="PictureName" class="text-danger"></span>
+    </div>
+    <div class="new-animal-form" >
+        <label asp-for="Description">Description</label>
+        <textarea asp-for="Description" class="form-control" name="Description" rows="7"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="new-animal-form" >
+        <label asp-for="CategoryId">*Category</label>
+        <select asp-for="CategoryId" class="form-control" name="CategoryId">
+            <option value="">-- Select Category --</option>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.CategoryId">@category.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <br /> <br />
+    <button type="submit" style="margin-left:750px" >Insert</button>
+}

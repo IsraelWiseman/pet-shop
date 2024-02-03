@@ -1,0 +1,69 @@
+﻿@model List<PetShopWebsite.Models.Animal>
+
+@{
+    Layout = "_PetShopLayout";
+}
+
+@{
+    var categories = ViewData["Categories"] as List<PetShopWebsite.Models.Category>;
+    int? categoriesCount = categories?.Count;
+}
+
+<div style="display: flex; align-items: center;">
+    <form asp-action="Administrator" method="get" style="flex: 1;">
+        <div class="form-group">
+            <select id="category" name="type" class="form-control">
+                <option value="">-- Select a category --</option>
+                @foreach (var category in categories ?? Enumerable.Empty<PetShopWebsite.Models.Category>())
+                {
+                    <option value="@category.Name">@category.Name</option>
+                }
+            </select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-info" style="margin-left:20px">Filter</button>
+            <a href="@Url.Action("NewAnimal", "PetShop")" style="margin-left:1050px; background-color:whitesmoke;border-radius:5px ">Add new animal</a>
+        </div>
+    </form>
+</div>
+<br />
+
+@if (Model == null || Model.Count == 0)
+{
+    <p style="margin-left:20px">No animals found.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var animal in Model)
+            {
+                <tr class="animal-row">
+                    <td><img src="@Url.Content($"~/Images/{animal.PictureName}")" alt="@animal.Name" class="img-thumbnail" /></td>
+                    <td>@animal.Name</td>
+                    <td>@animal.Age</td>
+                    <td>@animal.Description</td>
+                    <td>
+                        <div class="d-flex">
+                            <a href="@Url.Action("EditAnimal", new { id = animal.AnimalId })" class="btn btn-primary mr-2">Edit</a>
+                            <form asp-action="DeleteAnimal" asp-route-id="@animal.AnimalId" onsubmit="return confirm('Are you sure you want to delete this animal?')" method="post">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
